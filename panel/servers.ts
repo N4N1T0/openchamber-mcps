@@ -31,6 +31,11 @@ export type ConfigFile = {
 /**
  * The config files this panel reads, lowest precedence first.
  *
+ * A folder can hold both a `.json` and a `.jsonc`: OpenCode reads both and
+ * merges them, and for a name in both the `.jsonc` wins. That was checked with
+ * `opencode mcp list` against OpenCode V2, and it is why `.jsonc` follows
+ * `.json` here rather than the other way round.
+ *
  * OpenCode reads more than these: `opencode.json(c)` in every ancestor folder
  * of the open one, and `OPENCODE_CONFIG`. A server configured there is not
  * listed here, which the README says plainly. Global `~/.config/opencode` is

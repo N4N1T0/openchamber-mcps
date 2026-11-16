@@ -123,10 +123,18 @@ counts for where the entry actually sits.
 The same files, in the same order of precedence, that OpenCode merges:
 
 ```
-~/.config/opencode/opencode.json(c)      global, lowest precedence
-<project>/opencode.json(c)
-<project>/.opencode/opencode.json(c)     highest
+~/.config/opencode/opencode.json         global, lowest precedence
+~/.config/opencode/opencode.jsonc
+<project>/opencode.json
+<project>/opencode.jsonc
+<project>/.opencode/opencode.json
+<project>/.opencode/opencode.jsonc       highest
 ```
+
+When both a `.json` and a `.jsonc` sit in the same folder, OpenCode reads both
+and merges them, and for a server name in both the `.jsonc` is the one that
+wins — checked with `opencode mcp list`, which is where this order comes from.
+Keeping one file per folder is still less to think about.
 
 A server name is replaced **whole** by a higher-precedence entry — not field by
 field — so the losing entry does nothing, which is what the `overridden` badge
