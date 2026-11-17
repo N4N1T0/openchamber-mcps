@@ -621,10 +621,26 @@ const renderDetail = (): void => {
   );
 };
 
+/** The credit line under both views. The sandboxed frame cannot open a link itself, so the host does. */
+const footer = (): HTMLElement => {
+  const foot = el('div', 'site-foot');
+  const link = el('a', undefined, 'built with love by nano');
+  link.href = 'https://www.adrian-alvarez.com/en/';
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    void host.openUrl(link.href).catch(async (error: unknown) => {
+      await host.toast({ kind: 'error', message: failure(error) });
+    });
+  });
+  foot.append(link);
+  return foot;
+};
+
 const render = (): void => {
   root.replaceChildren();
   if (viewing) renderDetail();
   else renderList();
+  root.append(footer());
 };
 
 host.onDirectory((next) => {
